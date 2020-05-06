@@ -1,4 +1,4 @@
 
-src/main/python/__pycache__/QRCode.cpython-37.pyc
+.vscode/.ropeproject/
 
-.vscode/.ropeproject/config.py
+src/main/python/__pycache__/
