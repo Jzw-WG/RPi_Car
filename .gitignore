@@ -2,3 +2,5 @@
 .vscode/.ropeproject/
 
 src/main/python/__pycache__/
+
+.vscode/
