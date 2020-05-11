@@ -91,7 +91,7 @@ class QRCode:
             logger.error(u'无二维码')        
     
         # img.show()  # 显示图片，测试用
-    
+        barcodeData = ''
         txt_list = pyzbar.decode(img)
     
         for txt in txt_list:
