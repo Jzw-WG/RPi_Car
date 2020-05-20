@@ -97,15 +97,18 @@ class ImageProcess:
     
     @staticmethod
     def desaturate(src):
-        (a, b, channels) = src.shape
-        if(channels == 1):
+        try:
+            (a, b, channels) = src.shape
+            if(channels == 1):
+                return numpy.copy(src)
+            elif(channels == 3):
+                return cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+            elif(channels == 4):
+                return cv2.cvtColor(src, cv2.COLOR_BGRA2GRAY)
+            else:
+                raise Exception("Input to desaturate must have 1, 3 or 4 channels")
+        except:
             return numpy.copy(src)
-        elif(channels == 3):
-            return cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
-        elif(channels == 4):
-        	return cv2.cvtColor(src, cv2.COLOR_BGRA2GRAY)
-        else:
-            raise Exception("Input to desaturate must have 1, 3 or 4 channels")
 
     @staticmethod
     def blur(src, type, radius):
