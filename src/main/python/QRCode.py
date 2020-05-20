@@ -2,12 +2,13 @@ import qrcode
 import os
 import sys
 import time
+import cv2
 import zxing
 from pyzbar import pyzbar
 import logging
 import random
 import numpy
-from PIL import Image
+from PIL import Image,ImageDraw
 
 logger = logging.getLogger(__name__)    #记录数据
 
@@ -76,7 +77,7 @@ class QRCode:
         return data     #返回记录的内容
     
     @staticmethod
-    def decode_qrcode_zxbar(image, filename=''):
+    def decode_qrcode_zbar(image, filename=''):
         if filename !='':
             if os.path.isfile(filename):
                 # 从本地加载二维码图片
@@ -92,22 +93,38 @@ class QRCode:
     
         # img.show()  # 显示图片，测试用
         barcodeData = ''
-        txt_list = pyzbar.decode(img)
-    
-        for txt in txt_list:
-            barcodeData = txt.data.decode("utf-8")
-        return barcodeData
+        barcode_list = pyzbar.decode(img)
+        try:
+            for barcode in barcode_list: #Todo 同屏出现多个二维码
+                barcodeData = barcode.data.decode("utf-8")
+                barcodeRect = barcode.rect
+                barcodePolygon = barcode.polygon
+            return barcodeData,barcodeRect,barcodePolygon
+        except Exception:
+            return '',None,None
+        
+
+    @staticmethod
+    def bounding_qrcode_zbar(image,rect,polygon): #image为nparray格式
+        srcImage = Image.fromarray(cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(srcImage)
+        draw.rectangle(
+            (
+                (rect.left, rect.top),
+                (rect.left + rect.width, rect.top + rect.height)
+            ),
+            outline='#0080ff'
+        )
+        draw.polygon(polygon, outline='#e945ff')
+        draw_image = cv2.cvtColor(numpy.asarray(srcImage),cv2.COLOR_RGB2BGR) 
+
+        return draw_image
 
 
 if __name__ == '__main__':
     filename = QRCode.qr_image_path + QRCode.qr_file_name
     # zxing二维码识别
     # ltext = QRCode.decode_qrcode_zxing(None, filename)  #将图片文件里的信息转码放到ltext里面
-    ltext = QRCode.decode_qrcode_zxbar(None, filename)  #将图片文件里的信息转码放到ltext里面
+    ltext = QRCode.decode_qrcode_zbar(None, filename)  #将图片文件里的信息转码放到ltext里面
     logger.info(u'[%s]Zxing二维码识别:[%s]!!!' % (filename, ltext))  #记录文本信息            
     print(ltext)    #打印出二维码名字
-
-
-
-
-        
