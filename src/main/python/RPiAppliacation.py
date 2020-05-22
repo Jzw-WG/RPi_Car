@@ -42,13 +42,15 @@ def camera_app():
         data,rect,polygon = my_qr.decode_qrcode_zbar(Img_dst_image)
 
 
-        # 更新上一帧的图像和追踪点
-        old_frame = frame.copy()
+        # 更新上一帧的图像和追踪点(光流)
+        # old_frame = frame.copy()
         print(i,':',data)
 
         
         if rect != None and polygon != None:
             draw_image = my_qr.bounding_qrcode_zbar(my_imgpro.src_image,rect,polygon)
+
+        my_car.transfer_rect_to_control(rect,frame.shape)
 
         cv2.imshow('frame',draw_image)
         if cv2.waitKey(1) == ord('q'):
