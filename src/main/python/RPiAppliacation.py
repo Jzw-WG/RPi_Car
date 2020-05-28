@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import QRCode as myqr
 import ImageProcess as imgp
 import cv2
