@@ -1,3 +1,5 @@
+#!/usr/bin/python
+#-- coding:utf8 --
 import QRCode as myqr
 import ImageProcess as imgp
 import cv2

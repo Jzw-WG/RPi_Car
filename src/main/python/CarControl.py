@@ -1,5 +1,5 @@
-
-
+#!/usr/bin/python
+#-- coding:utf8 --
 class CarControl:
     MAX_LEFT_RIGHT_ANGLE = 45
     DEFAULT_RECT_HEIGHT_RATE = 0.3

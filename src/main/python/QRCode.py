@@ -1,3 +1,5 @@
+#!/usr/bin/python
+#-- coding:utf8 --
 import qrcode
 import os
 import sys
