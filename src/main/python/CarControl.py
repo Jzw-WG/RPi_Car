@@ -1,15 +1,19 @@
 #!/usr/bin/python
 #-- coding:utf8 --
-import RPi.GPIO as GPIO
-import serial
-import time
+
+# import RPi.GPIO as GPIO
+# import serial
+# import time
+
+
 class CarControl:
     MAX_LEFT_RIGHT_ANGLE = 45
     DEFAULT_RECT_HEIGHT_RATE = 0.3
     CENTER_RANGE = 0.05
-    CHANNEL_LIST = [17, 27, 22, 18, 23, 24, 25, 12]
-    def __init__(self):
-        self.ser = None
+
+    # CHANNEL_LIST = [17, 27, 22, 18, 23, 24, 25, 12]
+    # def __init__(self):
+        # self.ser = None
 
     @staticmethod
     def get_left_right_command(rect_center, image_width):
@@ -42,12 +46,12 @@ class CarControl:
         param = distance
         return command,param
 
-    def initial():
-        GPIO.setup(CHANNEL_LIST, GPIO.OUT)
-        ser = serial.Serial('/dev/ttyAMA0', 115200)
+    # def initial():
+        # GPIO.setup(CHANNEL_LIST, GPIO.OUT)
+        # ser = serial.Serial('/dev/ttyAMA0', 115200)
 
     def transfer_rect_to_control(self, rect, image_shape):
-        initial()
+        # initial()
         if rect != None and image_shape != None:
             rect_left = rect.left
             rect_center = rect.left + rect.width/2
@@ -83,64 +87,64 @@ class CarControl:
             else:
                 self.stop()
 
-    def changeGPIO(command, angle, distance):
-        bits = bin(angle)
-        if command == 'stop':
-            # GPIO 17 and 27 output 11 = stop
-            GPIO.output(CHANNEL_LIST[0], GPIO.HIGH)
-            GPIO.output(CHANNEL_LIST[1], GPIO.HIGH)
-        if command == 'left':
-           # GPIO 17 and 27 output 01 = left
-            GPIO.output(CHANNEL_LIST[0], GPIO.LOW)
-            GPIO.output(CHANNEL_LIST[1], GPIO.HIGH)
-            # GPIO 18,23,24,25,12 output = bin(angle)
-            GPIO.output(CHANNEL_LIST[4], int(bits[-5]))
-            GPIO.output(CHANNEL_LIST[5], int(bits[-4]))
-            GPIO.output(CHANNEL_LIST[6], int(bits[-3]))
-            GPIO.output(CHANNEL_LIST[7], int(bits[-2]))
-            GPIO.output(CHANNEL_LIST[8], int(bits[-1]))
-        elif command == 'right':
-            # GPIO 17 and 27 output 10 = right
-            GPIO.output(CHANNEL_LIST[0], GPIO.HIGH)
-            GPIO.output(CHANNEL_LIST[1], GPIO.LOW)
-            # GPIO 18,23,24,25,12 output = bin(angle)
-            GPIO.output(CHANNEL_LIST[4], int(bits[-5]))
-            GPIO.output(CHANNEL_LIST[5], int(bits[-4]))
-            GPIO.output(CHANNEL_LIST[6], int(bits[-3]))
-            GPIO.output(CHANNEL_LIST[7], int(bits[-2]))
-            GPIO.output(CHANNEL_LIST[8], int(bits[-1]))
-        if command == 'forward':
-            # GPIO 22 output 0 = forward
-            GPIO.output(CHANNEL_LIST[2], GPIO.LOW)
-        elif command == 'backward':
-            # GPIO 22 output 1 = backward
-            GPIO.output(CHANNEL_LIST[2], GPIO.HIGH)
+    # def changeGPIO(command, angle, distance):
+    #     bits = bin(angle)
+    #     if command == 'stop':
+    #         # GPIO 17 and 27 output 11 = stop
+    #         GPIO.output(CHANNEL_LIST[0], GPIO.HIGH)
+    #         GPIO.output(CHANNEL_LIST[1], GPIO.HIGH)
+    #     if command == 'left':
+    #        # GPIO 17 and 27 output 01 = left
+    #         GPIO.output(CHANNEL_LIST[0], GPIO.LOW)
+    #         GPIO.output(CHANNEL_LIST[1], GPIO.HIGH)
+    #         # GPIO 18,23,24,25,12 output = bin(angle)
+    #         GPIO.output(CHANNEL_LIST[4], int(bits[-5]))
+    #         GPIO.output(CHANNEL_LIST[5], int(bits[-4]))
+    #         GPIO.output(CHANNEL_LIST[6], int(bits[-3]))
+    #         GPIO.output(CHANNEL_LIST[7], int(bits[-2]))
+    #         GPIO.output(CHANNEL_LIST[8], int(bits[-1]))
+    #     elif command == 'right':
+    #         # GPIO 17 and 27 output 10 = right
+    #         GPIO.output(CHANNEL_LIST[0], GPIO.HIGH)
+    #         GPIO.output(CHANNEL_LIST[1], GPIO.LOW)
+    #         # GPIO 18,23,24,25,12 output = bin(angle)
+    #         GPIO.output(CHANNEL_LIST[4], int(bits[-5]))
+    #         GPIO.output(CHANNEL_LIST[5], int(bits[-4]))
+    #         GPIO.output(CHANNEL_LIST[6], int(bits[-3]))
+    #         GPIO.output(CHANNEL_LIST[7], int(bits[-2]))
+    #         GPIO.output(CHANNEL_LIST[8], int(bits[-1]))
+    #     if command == 'forward':
+    #         # GPIO 22 output 0 = forward
+    #         GPIO.output(CHANNEL_LIST[2], GPIO.LOW)
+    #     elif command == 'backward':
+    #         # GPIO 22 output 1 = backward
+    #         GPIO.output(CHANNEL_LIST[2], GPIO.HIGH)
     
-    def changeTDXRDX(command, angle, distance):
-        self.ser.write(command.encode('utf-8'))
+    # def changeTDXRDX(command, angle, distance):
+    #     self.ser.write(command.encode('utf-8'))
 
     @staticmethod
     def turn_left(angle):
-        changeTDXRDX('left', angle, '')
+        # changeTDXRDX('left', angle, '')
         print('turn left' + ', angle：',angle)
 
     @staticmethod
     def turn_right(angle):
-        changeTDXRDX('right', angle, '')
+        # changeTDXRDX('right', angle, '')
         print('turn right' + ', angle：',angle)
 
     @staticmethod
     def go_forward(distance):
-        changeTDXRDX('forward', '', distance)
+        # changeTDXRDX('forward', '', distance)
         print('go forward' + ', distance：',distance)
 
     @staticmethod    
     def go_backward(distance):
-        changeTDXRDX('backward', '', distance)
+        # changeTDXRDX('backward', '', distance)
         print('go backward' + ', distance：',distance)
     
     @staticmethod    
     def stop():
-        changeTDXRDX('stop', '', '')
+        # changeTDXRDX('stop', '', '')
         print('stop')
     
