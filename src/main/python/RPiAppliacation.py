@@ -51,7 +51,7 @@ def camera_app():
         
         if rect != None and polygon != None:
             draw_image = my_qr.bounding_qrcode_zbar(my_imgpro.src_image,rect,polygon)
-        else
+        else:
             draw_image = my_imgpro.src_image
 
         my_car.transfer_rect_to_control(rect,frame.shape)
