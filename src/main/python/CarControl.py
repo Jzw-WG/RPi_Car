@@ -59,22 +59,20 @@ class CarControl:
             self.transfer_command_to_control(command1,param1,command2,param2)
     
     def transfer_command_to_control(self,command1,param1,command2,param2):
-        if command1 == 'left':
-            self.turn_left(param1)
+        if command1 == 'left':           
             if command2 == 'forward':
-                self.go_forward(param2)
+                self.forward_left(param1, param2)
             elif command2 == 'backward':
-                self.go_backward(param2)
+                self.backward_left(param1, param2)
             else:
-                self.stop()
-        elif command1 == 'right':
-            self.turn_right(param1)
+                self.turn_left(param1)
+        elif command1 == 'right':           
             if command2 == 'forward':
-                self.go_forward(param2)
+                self.forward_right(param1, param2)
             elif command2 == 'backward':
-                self.go_backward(param2)
+                self.backward_right(param1, param2)
             else:
-                self.stop()
+                self.turn_right(param1)
         else:
             if command2 == 'forward':
                 self.go_forward(param2)
@@ -116,26 +114,43 @@ class CarControl:
     #         # GPIO 22 output 1 = backward
     #         GPIO.output(CHANNEL_LIST[2], GPIO.HIGH)
     
+    # 1:left 2:right 3:forward 4:backward 5:forward_left 6:forward_right 7:backward_left 8:backward_right
     def changeTDXRDX(self, command, angle, distance):
         if self.ser != None:
-            self.ser.write(command.encode('utf-8'))
+            self.ser.write(command+str(int(angle)).encode('utf-8'))
 
     def turn_left(self, angle):
-        self.changeTDXRDX('left', angle, '')
+        self.changeTDXRDX('1', angle, '')
         print('turn left' + ', angle：',angle)
 
     def turn_right(self, angle):
-        self.changeTDXRDX('right', angle, '')
+        self.changeTDXRDX('2', angle, '')
         print('turn right' + ', angle：',angle)
 
     def go_forward(self, distance):
-        self.changeTDXRDX('forward', '', distance)
+        self.changeTDXRDX('3', '', distance)
         print('go forward' + ', distance：',distance)
   
     def go_backward(self, distance):
-        self.changeTDXRDX('backward', '', distance)
+        self.changeTDXRDX('4', '', distance)
         print('go backward' + ', distance：',distance)
     
+    def forward_left(self, angle, distance):
+        self.changeTDXRDX('5', angle, distance)
+        print('forward_left' + ', angle：',angle, ', distance：',distance)
+
+    def forward_right(self, angle, distance):
+        self.changeTDXRDX('6', angle, distance)
+        print('forward_right' + ', angle：',angle, ', distance：',distance)
+
+    def backward_left(self, angle, distance):
+        self.changeTDXRDX('7', angle, distance)
+        print('backward_left' + ', angle：',angle, ', distance：',distance)
+  
+    def backward_right(self, angle, distance):
+        self.changeTDXRDX('8', angle, distance)
+        print('backward_right' + ', angle：',angle, ', distance：',distance)
+
     def stop(self):
         self.changeTDXRDX('stop', '', '')
         print('stop')
